@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <link href="libraries/jqvmap/jqvmap.min.css" rel="stylesheet">
+        <link href="css/onsenui.css" rel="stylesheet">
+        <link href="css/onsen-css-components.min.css" rel="stylesheet">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <title>Territorios del Saber</title>
+    </head>
+    <body>
+    <ons-page>
+        <ons-splitter>
+            <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+                <ons-page>
+                    <ons-list>
+                        <ons-list-item onclick="window.fn.load('inicio.html')" tappable>
+                            <ons-icon icon="home">
+                            </ons-icon>
+                            &nbsp;&nbsp;Inicio
+                        </ons-list-item>
+                        <ons-list-item onclick="window.fn.load('home.html')" tappable>
+                            <ons-icon icon="globe">
+                            </ons-icon>
+                            &nbsp;&nbsp;Mapa
+                        </ons-list-item>
+                        <ons-list-item onclick="window.fn.load('deja-huella.html')" tappable>
+                            <ons-icon icon="map-marker">
+                            </ons-icon>
+                            &nbsp;&nbsp;Huellas
+                        </ons-list-item>
+                        <ons-list-item onclick="window.fn.load('comunidad.html')" tappable>
+                            <ons-icon icon="bullhorn">
+                            </ons-icon>
+                            &nbsp;&nbsp; Comunidad
+                        </ons-list-item>
+                    </ons-list>
+                    <p id="version-info">Territorios del saber v1.0.0</p>
+                </ons-page>
+            </ons-splitter-side>
+            <ons-splitter-content id="content" page="dash-container.html"></ons-splitter-content>
+        </ons-splitter>
+    </ons-page>
+
+    <ons-template id="dash-container.html">
+        <ons-page id="dashContainer">
+            <ons-navigator id="territoriosNavigator" page="inicio.html"></ons-navigator>
+        </ons-page>
+    </ons-template>
+
+    <template id="inicio.html">
+        <ons-page id="inicio">
+            <div class="inicio-container">
+                <div class="img-inicio">
+                    <img src="assets/icono-app.png">
+                    <p id="inicio-titulo">Bienvenida/o<br><span>a Territorios del Saber</span></p>
+                    <p id="inicio-subtitulo">Donde el ingenio científico se vuelva realidad</p>
+                </div>
+                <div class="btn-inicio">
+                    <button class="botones-home" onclick="window.fn.load('home.html')">Entrar</button>
+                </div>
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="video.html">
+        <ons-page id="video">
+        </ons-page>
+    </template>
+
+    <template id="home.html">
+        <ons-page id="homepage">
+            <div class="bf-container">
+                <div class="header">
+                    <div class="left-header">
+                        <ons-toolbar-button onclick="window.fn.open()" id="menu-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="39.609" height="39.612" viewBox="0 0 39.609 39.612">
+                                <path id="Trazado_1024" data-name="Trazado 1024" d="M383.232-74.613a19.805,19.805,0,0,0-19.8,19.807,19.8,19.8,0,0,0,19.8,19.8,19.8,19.8,0,0,0,19.8-19.8A19.805,19.805,0,0,0,383.232-74.613Zm-.591,28.994h-7.186a1.074,1.074,0,0,1,0-2.147h7.186a1.072,1.072,0,0,1,1.071,1.074A1.074,1.074,0,0,1,382.64-45.619Zm8.338-8.116H375.454a1.073,1.073,0,0,1,0-2.145h15.524a1.072,1.072,0,0,1,1.074,1.071A1.073,1.073,0,0,1,390.979-53.735Zm0-8.113H383.8a1.073,1.073,0,0,1,0-2.145h7.184a1.072,1.072,0,0,1,1.074,1.071A1.073,1.073,0,0,1,390.979-61.848Z" transform="translate(-363.427 74.613)" fill="#65babb"/>
+                            </svg>
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="right-header">
+                        <ons-input id="buscador" placeholder="Buscar un sitio"></ons-input>
+                    </div>
+                </div>
+                <div id="mexico-map-container" class="map-container">
+                </div>
+            </div>
+            <div class="bottom-container-info">
+                <img src="assets/icono-explora.png" class="icono-bottom" />
+                <p><span class="title1">Explora más de 50 sitios</span><br/><span class="title2">sobre nuestro</span><br/><span  class="title3">mapa interactivo</span></p>
+                <button class="botones-home">Conocenos</button>
+                <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
+            </div>
+            <script>
+                document.getElementById('homepage').onInit = function () {
+                    if (ons.platform.isIPhoneX()) {
+                        //console.log('====  Validando Notch iPhone =====');
+                        document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+                    }
+
+                    jQuery('#mexico-map-container').vectorMap({
+                        map: 'mex_es',
+                        backgroundColor: 'transparent',
+                        borderColor: '#909090',
+                        borderOpacity: 0.50,
+                        borderWidth: 2,
+                        color: '#f4f3f0',
+                        enableZoom: true,
+                        hoverColor: '#DCBD80',
+                        hoverOpacity: null,
+                        normalizeFunction: 'linear',
+                        scaleColors: ['#86C7C8', '#86C7C8'],
+                        selectedColor: '#c9dfaf',
+                        selectedRegions: null,
+                        showTooltip: true,
+                        onRegionClick: function(element, code, region)
+                        {
+                            console.log(region);
+                            //window.fn.load('estado.html');
+                            document.querySelector('#territoriosNavigator')
+                                .pushPage('estado.html',
+                                    {
+                                        data: {nombreEstado: region }
+                                    });
+                        }
+                    });
+                };
+            </script>
+        </ons-page>
+    </template>
+
+    <template id="estado.html">
+        <ons-page id="estado">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="estado-container">
+                <h1 id="nombre-estado">Estado</h1>
+                <p>No hay sitios disponibles</p>
+            </div>
+            <script>
+                document.getElementById('estado').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+    <template id="deja-huella.html">
+        <ons-page id="deja-huella">
+            <div id="deja-huella-container">
+                <div id="header-dh">
+                    <img src="assets/icono-deja-huella.png" class="icon-dh">
+                    <p>Comparte tus fotos,<br/>videos, anécdotas o<br/>historias y deja huella</p>
+                </div>
+                <div class="deja-huella-form">
+                    <ons-input id="dh-nombre" placeholder="Tu nombre" class="dh-input"></ons-input>
+                    <ons-input id="dh-redes-sociales" placeholder="¿Cómo apareces en redes sociales?" class="dh-input"></ons-input>
+                    <textarea id="dh-detalle" placeholder="Comparte sobre el sitio que visitate"></textarea>
+                    <p><ons-icon icon="film"></ons-icon>  Añade fotos o video</p>
+                    <input type="file">
+                    <p>Elige el o los sitios que visitaste:</p>
+                    <p>No hay sitios disponibles</p>
+                    <button disabled="disabled" class="botones-home">Enviar</button>
+                </div>
+            </div>
+            <ons-bottom-toolbar modifier="aligned">
+                <div class="btn-footer-nav" onclick="window.fn.load('inicio.html')"><ons-icon icon="home"></ons-icon><p>Inicio</p></div>
+                <div class="btn-footer-nav" onclick="window.fn.load('home.html')"><ons-icon icon="globe"></ons-icon><p>Mapa</p></div>
+                <div class="btn-footer-nav"  onclick="window.fn.load('deja-huella.html')"><ons-icon icon="map-marker"></ons-icon><p>Deja Huella</p></div>
+                <div class="btn-footer-nav"><ons-icon icon="bullhorn"></ons-icon><p>Comunidad</p></div>
+            </ons-bottom-toolbar>
+            <script>
+                document.getElementById('estado').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+        <script src="js/onsenui.min.js"></script>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="libraries/jqvmap/jquery.vmap.min.js"></script>
+        <script src="js/jqvmap-mexico.js"></script>
+        <script src="cordova.js"></script>
+        <script src="js/events.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>

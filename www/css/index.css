@@ -1,0 +1,288 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E4E4E4;
+    background-image:linear-gradient(to bottom, #A7A7A7 0%, #E4E4E4 51%);
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size:12px;
+    height:100vh;
+    margin:0px;
+    padding:0px;
+    /* Padding to avoid the "unsafe" areas behind notches in the screen */
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    width:100%;
+}
+
+/* Portrait layout (default) */
+.app {
+    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    position:absolute;             /* position in the center of the screen */
+    left:50%;
+    top:50%;
+    height:50px;                   /* text area height */
+    width:225px;                   /* text area width */
+    text-align:center;
+    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+    .app {
+        background-position:left center;
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
+    }
+}
+
+h1 {
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.event {
+    border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+#deviceready.ready .event.listening { display: none; }
+#deviceready.ready .event.received { display: block; }
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        background-image:linear-gradient(to bottom, #585858 0%, #1B1B1B 51%);
+    }
+}
+
+.left-header {
+    display: inline-block;
+    width: 20%;
+}
+.right-header {
+    display: inline-block;
+    float: right;
+    width: 80%;
+    padding: 14px 0px;
+}
+#menu-button {
+    margin-top: 5px;
+    margin-left: 5px;
+    display: block;
+}
+ons-input#buscador {
+    border: 1px solid #d3d2d2;
+    border-radius: 30px;
+    width: 70%;
+    padding: 2px 10px;
+    background: #FFF;
+}
+#homepage .page__background {
+    background-image: url('../assets/home-background.png');
+    background-size: cover;
+}
+div#mexico-map-container {
+    width: 100%;
+    height: 60vh;
+    /*background: transparent !iportant;*/
+}
+.jqvmap-zoomin, .jqvmap-zoomout {
+    background: #64babb;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+}
+
+.center.list-item__center {
+    text-transform: capitalize;
+}
+p#version-info {
+    text-transform: capitalize;
+    text-align: center;
+    color: #888;
+}
+.bottom-container-info {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 4vh 0px;
+    background-image: url('../assets/bottom-container.png');
+    background-position: top center;
+    background-size: cover;
+    font-size: 1.4em;
+}
+span.title1 {
+    font-weight: 600;
+}
+span.title2 {
+    font-weight: 300;
+}
+span.title3 {
+    font-weight: 500;
+}
+
+img.icono-bottom {
+    width: 60px;
+}
+button.botones-home {
+    display: block;
+    margin: 12px auto;
+    padding: 6px 20px;
+    background: #0C7476;
+    border-radius: 11px;
+    border-style: none;
+}
+
+h1#nombre-estado {
+    font-size: 2em;
+    text-align: left;
+    font-weight: bold;
+}
+div#estado-container {
+    padding: 0px 20px;
+}
+#header-dh{
+    text-align: center;
+    color: #FFF;
+    background-image: url('../assets/back-deja-huella.png');
+    background-size: cover;
+    background-position: bottom center;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+}
+img.icon-dh {
+    width: 26px;
+}
+#header-dh p {
+    font-size: 1.3em;
+}
+ons-input.dh-input {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    border-radius: 12px;
+    background: #F8F8F8;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+}
+.deja-huella-form {
+    text-align: center;
+}
+textarea#dh-detalle {
+    background: #F8F8F8;
+    margin: 0 auto;
+    width: 78%;
+    border-radius: 8px;
+    border-color: #ccc;
+    height: 15vh;
+    font-family: sans-serif;
+    padding: 10px 8px;
+    font-size: 1.2em;
+}
+.btn-footer-nav {
+    text-align: center;
+    width: 25%;
+    color: #137476;
+    font-size: 1.5em;
+}
+ons-bottom-toolbar {
+    min-height: 54px;
+}
+.btn-footer-nav ons-icon.ons-icon {
+    line-height: 0.5em;
+    margin: 0px;
+    padding: 0px;
+}
+.btn-footer-nav p {
+    font-size: 10px;
+    padding: 0px;
+    margin: 0px;
+    line-height: 8px;
+    margin-top: -5px;
+}
+#inicio .page__background {
+    background-image: url('../assets/background-inicio.png');
+    background-size: cover;
+}
+#inicio-titulo span {
+    font-weight: 600;
+}
+p#inicio-titulo {
+    font-size: 1.5em;
+}
+.btn-inicio button.botones-home {
+    margin-top: 28px;
+}
+p#inicio-subtitulo {
+    font-size: 0.7em;
+}
+.inicio-container {
+    color: #FFF;
+    font-size: 1.4em;
+}
+.img-inicio img {
+    width: 30%;
+    margin: 0 auto;
+}
+.img-inicio {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 30vh;
+}
