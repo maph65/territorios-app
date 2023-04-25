@@ -24,7 +24,7 @@
                             </ons-icon>
                             &nbsp;&nbsp;Inicio
                         </ons-list-item>
-                        <ons-list-item onclick="window.fn.load('home.html')" tappable>
+                        <ons-list-item onclick="window.fn.load('homepage.html')" tappable>
                             <ons-icon icon="globe">
                             </ons-icon>
                             &nbsp;&nbsp;Mapa
@@ -32,7 +32,7 @@
                         <ons-list-item onclick="window.fn.load('deja-huella.html')" tappable>
                             <ons-icon icon="map-marker">
                             </ons-icon>
-                            &nbsp;&nbsp;Huellas
+                            &nbsp;&nbsp;Deja huella
                         </ons-list-item>
                         <ons-list-item onclick="window.fn.load('comunidad.html')" tappable>
                             <ons-icon icon="bullhorn">
@@ -62,7 +62,7 @@
                     <p id="inicio-subtitulo">Donde el ingenio científico se vuelva realidad</p>
                 </div>
                 <div class="btn-inicio">
-                    <button class="botones-home" onclick="window.fn.load('home.html')">Entrar</button>
+                    <button class="botones-home" onclick="window.fn.load('video.html')">Entrar</button>
                 </div>
             </div>
         </ons-page>
@@ -70,10 +70,27 @@
 
     <template id="video.html">
         <ons-page id="video">
+            <video id="video-intro">
+                <source src="assets/videoplayback.mp4" type="video/mp4">
+            </video>
+            <script>
+                document.getElementById('video').onInit = function () {
+                    this.onShow = function () {
+                        document.getElementById("video-intro").play();
+                        $("#video-intro").bind("ended", function() {
+                            console.log('Video termino');
+                            window.fn.load('homepage.html');
+                        });
+                    }
+                    this.onHide = function(){
+                        $("#video-intro").unbind("ended");
+                    }
+                }
+            </script>
         </ons-page>
     </template>
 
-    <template id="home.html">
+    <template id="homepage.html">
         <ons-page id="homepage">
             <div class="bf-container">
                 <div class="header">
@@ -85,17 +102,28 @@
                         </ons-toolbar-button>
                     </div>
                     <div class="right-header">
-                        <ons-input id="buscador" placeholder="Buscar un sitio"></ons-input>
+                        <form id="form-busqueda">
+                            <ons-input id="buscador" placeholder="Buscar un sitio"></ons-input>
+                        </form>
                     </div>
                 </div>
-                <div id="mexico-map-container" class="map-container">
-                </div>
+                <div id="mexico-map-container" class="map-container"></div>
             </div>
             <div class="bottom-container-info">
-                <img src="assets/icono-explora.png" class="icono-bottom" />
-                <p><span class="title1">Explora más de 50 sitios</span><br/><span class="title2">sobre nuestro</span><br/><span  class="title3">mapa interactivo</span></p>
-                <button class="botones-home">Conocenos</button>
-                <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
+                <ons-carousel swipeable auto-scroll overscrollable>
+                    <ons-carousel-item>
+                        <img src="assets/icono-explora.png" class="icono-bottom" />
+                        <p><span class="title1">Explora más de 50 sitios</span><br/><span class="title2">sobre nuestro</span><br/><span  class="title3">mapa interactivo</span></p>
+                        <button class="botones-home" onclick="window.fn.goConcenos()">Conocenos</button>
+                        <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
+                    </ons-carousel-item>
+                    <ons-carousel-item>
+                        <img src="assets/icono-captura.png" class="icono-bottom" />
+                        <p><span class="title1">Captura, imagina y</span><br/><span class="title2">contribuye a escribir estás</span><br/><span  class="title3">historias. Da clic en huellas.</span></p>
+                        <button class="botones-home" onclick="window.fn.goConcenos()">Conocenos</button>
+                        <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
+                    </ons-carousel-item>
+                </ons-carousel>
             </div>
             <script>
                 document.getElementById('homepage').onInit = function () {
@@ -130,6 +158,25 @@
                                     });
                         }
                     });
+
+                    this.onShow = function (){
+                        $('#form-busqueda').on('submit', function(e){
+                            e.preventDefault();
+                            window.fn.goSearchResults();
+                        });
+                    };
+
+                    this.onDestroy = function() {
+                        $('#form-busqueda').unbind('submit');
+                        $('.jqvmap-label').each(function (idx,node){
+                            node.remove();
+                        });
+                    };
+
+                    this.onHide = function () {
+                        $('#form-busqueda').unbind('submit');
+                    };
+
                 };
             </script>
         </ons-page>
@@ -156,6 +203,27 @@
         </ons-page>
     </template>
 
+    <template id="resultado-busqueda.html">
+        <ons-page id="resultado-busqueda">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="resultado-busqueda-container">
+                <h1 id="resultado-busqueda-title">Resultado de búsqueda</h1>
+                <p>No hay sitios disponibles</p>
+            </div>
+            <script>
+                document.getElementById('resultado-busqueda').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
     <template id="deja-huella.html">
         <ons-page id="deja-huella">
             <div id="deja-huella-container">
@@ -174,19 +242,214 @@
                     <button disabled="disabled" class="botones-home">Enviar</button>
                 </div>
             </div>
-            <ons-bottom-toolbar modifier="aligned">
-                <div class="btn-footer-nav" onclick="window.fn.load('inicio.html')"><ons-icon icon="home"></ons-icon><p>Inicio</p></div>
-                <div class="btn-footer-nav" onclick="window.fn.load('home.html')"><ons-icon icon="globe"></ons-icon><p>Mapa</p></div>
-                <div class="btn-footer-nav"  onclick="window.fn.load('deja-huella.html')"><ons-icon icon="map-marker"></ons-icon><p>Deja Huella</p></div>
-                <div class="btn-footer-nav"><ons-icon icon="bullhorn"></ons-icon><p>Comunidad</p></div>
+            <ons-bottom-toolbar modifier="aligned transparent" class="menu-bottom-territorios">
+                <div class="btn-footer-nav first-item-menu-bottom" onclick="window.fn.load('inicio.html')"><ons-icon icon="home"></ons-icon><p>Inicio</p></div>
+                <div class="btn-footer-nav" onclick="window.fn.load('homepage.html')"><ons-icon icon="globe"></ons-icon><p>Mapa</p></div>
+                <div class="btn-footer-nav" onclick="window.fn.load('deja-huella.html')"><ons-icon icon="map-marker"></ons-icon><p>Deja Huella</p></div>
+                <div class="btn-footer-nav" onclick="window.fn.load('comunidad.html')"><ons-icon icon="bullhorn"></ons-icon><p>Comunidad</p></div>
             </ons-bottom-toolbar>
             <script>
-                document.getElementById('estado').onInit = function () {
+                document.getElementById('deja-huella').onInit = function () {
                     this.onShow = function () {}
                 }
             </script>
         </ons-page>
     </template>
+
+
+    <template id="conocenos.html">
+        <ons-page id="conocenos">
+            <ons-toolbar modifier="transparent cover-content">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="conocenos-container">
+                <img src="assets/about-logo.png">
+                <div class="conocenos-buttons">
+                    <button class="conoce-btn equipo" onclick="window.fn.goEquipo()">Conoce el equipo</button>
+                    <button class="conoce-btn leer" onclick="window.fn.goLeerMas()">Leer +</button>
+                    <button class="conoce-btn agradecimientos" onclick="window.fn.goAgradecimientos()">Agradecimientos</button>
+                </div>
+            </div>
+            <script>
+                document.getElementById('conocenos').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
+    <template id="comunidad.html">
+        <ons-page id="comunidad">
+            <div id="comunidad-container">
+                <div class="comunidad-section">
+                    <h2>Noticias relevantes</h2>
+                    <hr class="separador-comunidad" />
+                    <p>No hay información disponible para mostrar</p>
+                </div>
+                <div class="comunidad-section">
+                    <h2>Nuestras redes sociales</h2>
+                    <hr class="separador-comunidad" />
+                    <p>Conocenos, comparte y siguenos</p>
+                    <ons-icon icon="facebook"></ons-icon>
+                    <ons-icon icon="twitter"></ons-icon>
+                    <ons-icon icon="instagram"></ons-icon>
+                    <ons-icon icon="linkedin"></ons-icon>
+                </div>
+                <div class="comunidad-section">
+                    <h2>Créditos</h2>
+                    <hr class="separador-comunidad" />
+                    <p>-</p>
+                </div>
+
+            </div>
+            <ons-bottom-toolbar modifier="aligned transparent" class="menu-bottom-territorios">
+                <div class="btn-footer-nav first-item-menu-bottom" onclick="window.fn.load('inicio.html')"><ons-icon icon="home"></ons-icon><p>Inicio</p></div>
+                <div class="btn-footer-nav" onclick="window.fn.load('homepage.html')"><ons-icon icon="globe"></ons-icon><p>Mapa</p></div>
+                <div class="btn-footer-nav"  onclick="window.fn.load('deja-huella.html')"><ons-icon icon="map-marker"></ons-icon><p>Deja Huella</p></div>
+                <div class="btn-footer-nav"><ons-icon icon="bullhorn"></ons-icon><p>Comunidad</p></div>
+            </ons-bottom-toolbar>
+            <script>
+                document.getElementById('comunidad').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
+    <template id="agradecimientos.html">
+        <ons-page id="agradecimientos">
+            <ons-toolbar modifier="transparent cover-content">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="agradecimientos-container">
+                <h2>Agradecimientos</h2>
+                <h4>UNAM</h4>
+                <ul>
+                    <li>Secretaría General</li>
+                    <li>Coordinación de la Investigación Científica</li>
+                    <li>Secretaría de Desarrollo Institucional</li>
+                    <li>Instituto de Biología</li>
+                    <li>Comité de Análisis para las Intervenciones Urbanas, Arquitectónicas y de las Ingenierías en el Campus Ciudad Universitaria</li>
+                </ul>
+                <br/><br/>
+                <h4>UNESCO</h4>
+                <ul>
+                    <li>Agencia Española de Cooperación internacional para el desarrollo</li>
+                    <li>Secretaría de Relaciones Exteriores</li>
+                    <li>Instituto Nacional de Antropología e Historia</li>
+                    <li>Instituto Nacional de Bellas Artes y Literatura</li>
+                    <li>Mexican Cultural Centre</li>
+                    <li>Lamán Carranza Ramírez</li>
+                    <li>Abel Zuñiga</li>
+                </ul>
+            </div>
+            <script>
+                document.getElementById('agradecimientos').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
+    <template id="leer-mas.html">
+        <ons-page id="leer-mas">
+            <ons-toolbar modifier="transparent cover-content">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="leer-mas-container">
+                <ons-carousel swipeable auto-scroll overscrollable id="carousel-leer-mas">
+                    <ons-carousel-item>
+                        <h1>Patrimonio científico, identidad enterrada en el espejo del tiempo</h1>
+                        <p>Para conocer nuestra identidad hay que tener el valor de desenterrar el espejo del tiempo, donde nos reflejamos en nuestros antepasados. Lo que trasciende no son las personas sino sus ideas, su arte y su ciencia. Las ideas son legado, legado es herencia, un patrimonio de la ciencia, un patrimonio de la humanidad.</p>
+                        <p>Elías Trabulse decía: “México es un paisaje de la ciencia inspirado por la obra del científico-pintor José María Velasco”. Latinoamérica es un continente de ideas, descubrimientos y revoluciones y aunque poco sepamos al respecto, nuestra historia ha escrito sus mejores páginas gracias al conocimiento.</p>
+                        <p>El gran historiador indio Kapil Raj, dice que el conocimiento es global: todos las personas  son inteligentes y han contribuido a esta gran aventura de la humanidad que llamamos ciencia. Esto es el patrimonio científico.</p>
+                        <button class="siguiente" onclick="window.fn.leerMasNext()">Siguiente</button>
+                    </ons-carousel-item>
+                    <ons-carousel-item>
+                        <h1>¿Cómo hacemos para reconocernos en él? </h1>
+                        <p>Descubriendo el valor de todo aquello material o inmaterial que forma parte de la historia de la ciencia y de las formas en que se construye la memoria del desarrollo científico en una sociedad. Todo aquello que, siendo histórico, permite entender la forma en que la ciencia y las ideas se han desarrollado en un contexto particular y que permiten a la sociedad apropiarse del conocimiento científico como parte inherente de su cultura. Si bien el conocimiento científico es universal, es decir es igualmente válido en todos lados,  la iconografía, los lugares y los personajes   de la ciencia en un sitio particular son únicos, esconden historias y despiertan emociones.</p>
+                        <p>Te invitamos a conocer más sobre nuestras investigaciones en la Cátedra UNESCO de Diplomacia y Patrimonio de la Ciencia. Nuestro objetivo es que en cualquier lugar del mundo sintamos orgullo e inspiración por la ciencia y el arte de nuestros pueblos. Bienvenidos, una vez más a los Territorios del saber. </p>
+                        <button class="siguiente"  onclick="window.fn.leerMasNext()">Siguiente</button>
+                    </ons-carousel-item>
+                    <ons-carousel-item>
+                        <h1>La Cátedra UNESCO en Diplomacia y Patrimonio de la Ciencia de la UNAM</h1>
+                        <p>La Cátedra UNESCO en Diplomacia y Patrimonio de la Ciencia de la UNAM, es un espacio interdisciplinario de aprendizaje sobre la diplomacia y el patrimonio desde y para la ciencia, en donde convergen diversas comunidades: académicas, políticas, del sector empresarial, organizaciones civiles y diplomáticos. Es un grupo conformado por la Dra. Ana María Cetto, la Dra. Yudy Tibaduiza y el Dr. Parsifal Islas quienes ha desarrollado más de 50 actividades y productos de investigación, docencia y difusión, actualmente la Cátedra cuenta con tres líneas activas de trabajo: 1) Diplomacia de la ciencia en México y Latinoamérica; 2) Ciencia para la paz y el desarrollo sostenible, y 3). Patrimonio de la Ciencia.</p>
+                        <button class="siguiente" onclick="window.fn.goMap()">Explorar Mapa</button>
+                    </ons-carousel-item>
+                </ons-carousel>
+            </div>
+            <script>
+                document.getElementById('leer-mas').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
+    <template id="equipo.html">
+        <ons-page id="equipo">
+            <ons-toolbar modifier="transparent cover-content">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="equipo-container">
+                <ons-carousel swipeable auto-scroll overscrollable id="carousel-equipo">
+                    <ons-carousel-item>
+                        <div class="equipo-item">
+                            <div class="foto-persona" style="background-image:url('assets/team/anamaria.png')"></div>
+                            <h1><span>Ana María</span><br/>Cetto Kramis</h1>
+                            <p>Científica mexicana internacionalmente reconocida por sus contribuciones en el campo de la mecánica cuántica y por promover el diálogo internacional para extender los beneficios de la ciencia a toda la humanidad. Ha sido entre otros directora general adjunta del Organismo Internacional de Energía Atómica de las Naciones Unidas, presidenta del Consejo de las Conferencias Pugwash, secretaría general del Consejo Internacional para la Ciencia, vicepresidenta fundadora de la Organización del Tercer Mundo para la Mujer en la Ciencia y directora de la Facultad de Ciencias de la UNAM. Es investigadora titular del Instituto de Física de la UNAM, presidenta fundadora de Latindex y presidenta de la Sociedad Mexicana de Física.</p>
+                            <br/><br/><br/>
+                            <ons-icon icon="arrow-right" class="icon-next-equipo" onclick="window.fn.equipoNext()"></ons-icon>
+                        </div>
+                    </ons-carousel-item>
+                    <ons-carousel-item>
+                        <div class="equipo-item">
+                            <div class="foto-persona" style="background-image:url('assets/team/parsifal.jpeg')"></div>
+                            <h1><span>Parsifal Fidelio</span><br/>Islas Morales</h1>
+                            <p>Científico mexicano interesado en construir alianzas entre la ciencia, la diplomacia, la política y la sociedad. Realizó sus estudios en biología en la King Abdullah University of Science and Technology KAUST y en la UNAM, aportando importantes conocimientos al origen y evolución del núcleo de las células. Cuenta con una amplia experiencia en proyectos de cooperación científica en el sector público y privado, así como una destacada producción académica. Fue reconocido con el Premio Nacional de la Juventud (Ciencia y Tecnología), la medalla Cinna Lomnitz al Mérito Científico, otorgada en el Senado de la República, y el Premio Estatal de Ciencias de Sajonia, Alemania.</p>
+                            <br/><br/><br/>
+                            <ons-icon icon="arrow-right" class="icon-next-equipo" onclick="window.fn.equipoNext()"></ons-icon>
+                        </div>
+                    </ons-carousel-item>
+                    <ons-carousel-item>
+                        <div class="equipo-item">
+                            <div class="foto-persona" style="background-image:url('assets/team/yudi.jpeg')"></div>
+                            <h1><span>Yudy Liliana</span><br/>Tibaduiza Roa</h1>
+                            <p>Científica colombiana interesada en el diálogo intercultural de saberes como mecanismo de entendimiento regional e internacional. Realizó sus estudios en la Universidad Pedagógica y Tecnológica de Colombia, el Colegio de la Frontera Sur y el Cinvestav, desarrollando un innovador estudio sobre el fracaso en los proyectos de desarrollo. Cuenta con una amplia experiencia en la resolución de conflictos en América Latina; además de una importante producción académica. Es líder académica de la Red de Soluciones para el desarrollo sostenible UNAM-Tec de Monterrey y  miembro de la OWSD-Colombia.</p>
+                            <br/><br/><br/>
+                            <button class="explorar" onclick="window.fn.goMap()">Explorar Mapa</button>
+                        </div>
+                    </ons-carousel-item>
+                </ons-carousel>
+            </div>
+            <script>
+                document.getElementById('equipo').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
 
         <script src="js/onsenui.min.js"></script>
         <script src="js/jquery-3.6.0.min.js"></script>

@@ -60,6 +60,17 @@ body {
     }
 }
 
+h1, h2, h3, h4, h5{
+    font-family: 'Helvetica Neue',Roboto,Noto,sans-serif;
+}
+.page__content h1,
+.page__content h2,
+.page__content h3,
+.page__content h4,
+.page__content h5{
+    font-family: 'Helvetica Neue',Roboto,Noto,sans-serif;
+}
+
 h1 {
     font-size:24px;
     font-weight:normal;
@@ -234,6 +245,7 @@ textarea#dh-detalle {
     font-family: sans-serif;
     padding: 10px 8px;
     font-size: 1.2em;
+    color: #FFF;
 }
 .btn-footer-nav {
     text-align: center;
@@ -285,4 +297,176 @@ p#inicio-subtitulo {
     margin: 0 auto;
     text-align: center;
     margin-top: 30vh;
+}
+.jqvmap-label{
+    z-index: 999;
+}
+#video .page__background {
+    background-color: #000;
+}
+video#video-intro {
+    object-fit: contain;
+    height: 100vh;
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+}
+.ons-icon.fa {
+    color: #0C7476;
+}
+h1#resultado-busqueda-title {
+    text-align: left;
+}
+div#resultado-busqueda-container {
+    padding: 0px 20px;
+}
+
+#conocenos .page__background {
+    background-image: url(../assets/home-background.png);
+    background-size: cover;
+}
+div#conocenos-container {
+    text-align: center;
+    margin-top: 10vh;
+}
+#conocenos-container img {
+    max-width: 190px;
+    width: 70%;
+}
+button.conoce-btn {
+    display: block;
+    margin: 2vh auto;
+    max-width: 180px;
+    width: 70%;
+    border-radius: 16px;
+    border-style: none;
+    padding: 8px 0px;
+}
+button.conoce-btn.equipo {
+    background: #7D4F07;
+}
+button.conoce-btn.leer {
+    background: #0C7476;
+}
+button.conoce-btn.agradecimientos {
+    background: #9AD2D4;
+}
+ons-bottom-toolbar.menu-bottom-territorios {
+    background: #FFF;
+}
+.first-item-menu-bottom{
+    background-image: url('../assets/back-btn-menu.png');
+    color: #FFF;
+    background-position: 100% 0%;
+    background-size: cover;
+}
+.btn-footer-nav.first-item-menu-bottom ons-icon.ons-icon{
+    color: #FFF;
+}
+
+div#comunidad-container {
+    margin: 0 auto;
+    max-width: 85%;
+}
+div#comunidad-container h2 {
+    margin: 15px 0px 0px 5px;
+}
+.comunidad-section {
+    margin: 6vh 0px;
+}
+hr.separador-comunidad {
+    border: 1px #707070 solid;
+}
+.comunidad-section ons-icon.ons-icon {
+    font-size: 1.6em;
+    vertical-align: middle;
+    margin: 8px 20px;
+    color: #89c7c7;
+}
+#agradecimientos .page__background {
+    background: #addbdd;
+}
+div#agradecimientos-container {
+    max-width: 80%;
+    margin: 0 auto;
+    margin-top: 14vh;
+}
+#agradecimientos-container ul {
+    list-style: none;
+    padding: 0px 15px;
+}
+
+#leer-mas .page__background {
+    background-image: url('../assets/back-leer-mas.png');
+    background-size: cover;
+}
+#leer-mas .ons-icon.fa {
+    color: #FFF;
+}
+#leer-mas-container h1, #leer-mas-container p {
+    color: #FFF;
+    text-align: left;
+    margin: 6vh 0;
+}
+div#leer-mas-container {
+    max-width: 80%;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+#leer-mas button.siguiente {
+    float: right;
+    padding: 8px 20px;
+    border-radius: 12px;
+    border-style: none;
+    background: #9bd2d4;
+    color: #000;
+    margin-bottom: 80px;
+}
+
+#equipo .page__background {
+    background-image: url('../assets/home-background.png');
+    background-size: cover;
+}
+.equipo-item {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+img.equipo-foto {
+    max-width: 100px;
+    width: 30%;
+    margin-top: 10vh;
+}
+.equipo-item h1 {
+    font-weight: 400;
+}
+.equipo-item h1 span {
+    font-weight: 800;
+}
+ons-icon.icon-next-equipo {
+    background: #FFF;
+    padding: 15px;
+    border-radius: 30px;
+}
+
+#equipo button.explorar {
+    padding: 8px 20px;
+    border-radius: 12px;
+    border-style: none;
+    background: #9bd2d4;
+    color: #000;
+}
+span.text-input__label.text-input--material__label {
+    top: auto;
+    left: 10px;
+}
+.foto-persona {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    margin: 0 auto;
+    border-radius: 100px;
+    margin-top: 10vh;
 }
