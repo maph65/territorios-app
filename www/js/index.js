@@ -8,7 +8,7 @@ function onDeviceReady() {
 
 window.fn = {};
 
-window.baseUrlApi = 'http://territorios-dashboard.local.brainforth.com/';
+window.baseUrlApi = 'https://admin-territorios.staging.brainforth.com/';
 
 window.fn.open = function() {
     var menu = document.getElementById('menu');
