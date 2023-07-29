@@ -147,7 +147,7 @@ ons-input#buscador {
 }
 div#mexico-map-container {
     width: 100%;
-    height: 60vh;
+    height: 75vh;
     /*background: transparent !iportant;*/
 }
 .jqvmap-zoomin, .jqvmap-zoomout {
@@ -502,15 +502,20 @@ div#estado-loader {
     vertical-align: top;
     padding: 0px 10px;
 }
+div#slider-sitio {
+    background: #000;
+}
 img.sitio-image-slider {
     max-height: 40vh;
     margin: 0 auto;
+    max-width: 100%;
 }
 .slider-content {
     background: #000;
     text-align: center;
+    vertical-align: middle;
+    margin: auto auto;
 }
-
 a.float-back-btn {
     position: absolute;
     z-index: 999;
@@ -552,8 +557,13 @@ div#sitio-deja-huella {
     text-align: center;
     width: 25%;
     background-color: #137476;
-    font-size: 1.5em;
+    font-size: 1em;
     color: #fff;
     padding: 10px 0px;
     border-radius: 25px;
+}
+
+#html-content-sitio{
+    max-width: 100%;
+    overflow: hidden;
 }

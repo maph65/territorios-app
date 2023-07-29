@@ -38,11 +38,12 @@ document.addEventListener("init", function (event) {
             let idArray = page.data.idArray;
             if(window.locacionesInfo && window.locacionesInfo[idArray]){
                 let sitio = new sitiosHelper(window.locacionesInfo[idArray]);
+                let contentSitio = sitio.getContenidoSitio().replace(/\n/g,' <br>');
                 console.log(sitio);
                 $('#slider-sitio').html(sitio.getSliderHtml());
                 $('#nombre-sitio').html(sitio.getNombreSitio());
                 $('#direccion-sitio').html(sitio.getUbicacionSitio());
-                $('#html-content-sitio').html(sitio.getContenidoSitio());
+                $('#html-content-sitio').html(contentSitio);
                 $('#nombre-autor').html(sitio.getNombreAutor());
             }else{
                 alert('No se encontró la información del sitio. Intentalo de nuevo más tarde.');
@@ -54,9 +55,11 @@ document.addEventListener("init", function (event) {
             if(typeof window.locacionesInfo !== 'undefined' && typeof(window.locacionesInfo[window.currentSiteId].CtAutor !== 'undefined')){
                 let autor = window.locacionesInfo[window.currentSiteId].CtAutor;
                 console.log(autor);
+                let bio = autor.bilografia.replace(/\n/g,' <br>');
+
                 $('#detalle-nombre-autor').html(autor.nombre);
                 $('#email-autor').html('');
-                $('#semblanza-autor').html(autor.bilografia);
+                $('#semblanza-autor').html(bio);
                 let imgUrl = window.baseUrlApi + 'global/img/autor_sin_foto.png';
                 if(autor.url_foto && autor.url_foto !== ''){
                     imgUrl = window.baseUrlApi + 'global/' + autor.url_foto;
