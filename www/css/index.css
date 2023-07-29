@@ -462,11 +462,98 @@ span.text-input__label.text-input--material__label {
     top: auto;
     left: 10px;
 }
-.foto-persona {
+.foto-persona, .foto-autor {
     width: 150px;
     height: 150px;
     background-size: cover;
     margin: 0 auto;
     border-radius: 100px;
     margin-top: 10vh;
+}
+
+.foto-autor{
+    background-image: url('../assets/persona.png');
+}
+
+div#estado-loader {
+    text-align: center;
+    margin: 25vh 0px;
+}
+
+.no-sitios-found {
+    text-align: center;
+    margin: 20vh 0px;
+}
+.no-sitios-found p {
+    font-size: 1.4em;
+}
+
+.card-main-image {
+    max-width: 20%;
+    overflow: hidden;
+    display: inline-block;
+}
+.card-main-image img.sitio-list-image {
+    max-width: 100%;
+}
+.card-address-content {
+    max-width: 76%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0px 10px;
+}
+img.sitio-image-slider {
+    max-height: 40vh;
+    margin: 0 auto;
+}
+.slider-content {
+    background: #000;
+    text-align: center;
+}
+
+a.float-back-btn {
+    position: absolute;
+    z-index: 999;
+    top: 10px;
+    left: 20px;
+    color: #FFF;
+    background-color: #0d7576;
+    padding: 5px;
+    font-size: 1.4em;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+a.float-back-btn .ons-icon.fa{
+    color:#FFF;
+}
+div#contenido-sitio {
+    max-width: 90%;
+    margin: 3vh auto;
+}
+img.icono-titulo {
+    max-height: 5em;
+}
+#btn-semblanza-autor {
+    color: #fff;
+    background-color: #88c8c7;
+    padding: 10px 20px;
+    border-radius: 40px;
+}
+.contenido-header-table {
+    padding: 0px 16px;
+}
+div#sitio-deja-huella {
+    margin: 5vh 0px;
+}
+
+#sitio-deja-huella .btn-footer-nav {
+    text-align: center;
+    width: 25%;
+    background-color: #137476;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 10px 0px;
+    border-radius: 25px;
 }

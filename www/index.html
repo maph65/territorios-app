@@ -58,11 +58,12 @@
             <div class="inicio-container">
                 <div class="img-inicio">
                     <img src="assets/icono-app.png">
-                    <p id="inicio-titulo">Bienvenida/o<br><span>a Territorios del Saber</span></p>
-                    <p id="inicio-subtitulo">Donde el ingenio científico se vuelva realidad</p>
+                    <!--<p id="inicio-titulo">Bienvenida/o<br><span>a Territorios del Saber</span></p>-->
+                    <p id="inicio-subtitulo">Donde el ingenio científico se vuelva identidad</p>
                 </div>
                 <div class="btn-inicio">
                     <button class="botones-home" onclick="window.fn.load('video.html')">Entrar</button>
+                    <button class="botones-home" onclick="window.fn.load('homepage.html')">Mapa</button>
                 </div>
             </div>
         </ons-page>
@@ -70,7 +71,7 @@
 
     <template id="video.html">
         <ons-page id="video">
-            <video id="video-intro">
+            <video id="video-intro" poster="assets/background-inicio.png">
                 <source src="assets/videoplayback.mp4" type="video/mp4">
             </video>
             <script>
@@ -113,14 +114,14 @@
                 <ons-carousel swipeable auto-scroll overscrollable>
                     <ons-carousel-item>
                         <img src="assets/icono-explora.png" class="icono-bottom" />
-                        <p><span class="title1">Explora más de 50 sitios</span><br/><span class="title2">sobre nuestro</span><br/><span  class="title3">mapa interactivo</span></p>
-                        <button class="botones-home" onclick="window.fn.goConcenos()">Conocenos</button>
+                        <p><span class="title1">Explora los sitios</span><br/><span class="title2">sobre nuestro</span><br/><span  class="title3">mapa interactivo</span></p>
+                        <button class="botones-home" onclick="window.fn.goConcenos()">Conócenos</button>
                         <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
                     </ons-carousel-item>
                     <ons-carousel-item>
                         <img src="assets/icono-captura.png" class="icono-bottom" />
                         <p><span class="title1">Captura, imagina y</span><br/><span class="title2">contribuye a escribir estás</span><br/><span  class="title3">historias. Da clic en huellas.</span></p>
-                        <button class="botones-home" onclick="window.fn.goConcenos()">Conocenos</button>
+                        <button class="botones-home" onclick="window.fn.goConcenos()">Conócenos</button>
                         <button class="botones-home" onclick="window.fn.load('deja-huella.html')">Deja huella</button>
                     </ons-carousel-item>
                 </ons-carousel>
@@ -131,8 +132,7 @@
                         //console.log('====  Validando Notch iPhone =====');
                         document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
                     }
-
-                    jQuery('#mexico-map-container').vectorMap({
+                    window.map = jQuery('#mexico-map-container').vectorMap({
                         map: 'mex_es',
                         backgroundColor: 'transparent',
                         borderColor: '#909090',
@@ -154,12 +154,13 @@
                             document.querySelector('#territoriosNavigator')
                                 .pushPage('estado.html',
                                     {
-                                        data: {nombreEstado: region }
+                                        data: {nombreEstado: region, codigo: code }
                                     });
                         }
                     });
 
                     this.onShow = function (){
+                        window.fn.getStatesInfo();
                         $('#form-busqueda').on('submit', function(e){
                             e.preventDefault();
                             window.fn.goSearchResults();
@@ -191,13 +192,82 @@
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <div id="estado-container">
+            <div id="estado-container" style="display:none;">
                 <h1 id="nombre-estado">Estado</h1>
-                <p>No hay sitios disponibles</p>
+                <div id="listado-sitios">
+                    <div class="no-sitios-found">
+                        <div class="sad-face">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="5em" viewBox="0 0 496 512">
+                                <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160-64c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-80 128c-40.2 0-78 17.7-103.8 48.6-8.5 10.2-7.1 25.3 3.1 33.8 10.2 8.4 25.3 7.1 33.8-3.1 16.6-19.9 41-31.4 66.9-31.4s50.3 11.4 66.9 31.4c8.1 9.7 23.1 11.9 33.8 3.1 10.2-8.5 11.5-23.6 3.1-33.8C326 321.7 288.2 304 248 304z"/>
+                            </svg>
+                        </div>
+                        <p>No hemos encontrado sitios.<br/>Espera nuevos sitios próximamente.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="estado-loader">
+                <svg class="progress-circular progress-circular--material progress-circular--indeterminate">
+                    <circle class="progress-circular__background progress-circular--material__background"/>
+                    <circle class="progress-circular__primary progress-circular--material__primary progress-circular--indeterminate__primary"/>
+                    <circle class="progress-circular__secondary progress-circular--material__secondary progress-circular--indeterminate__secondary"/>
+                </svg>
+                <p>Cargando ... </p>
             </div>
             <script>
                 document.getElementById('estado').onInit = function () {
-                    this.onShow = function () {}
+                    this.onShow = function () {
+                    }
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
+    <template id="detalle-sitio.html">
+        <ons-page id="detalle-sitio">
+            <!--<ons-toolbar modifier="transparent">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>-->
+            <div id="sitio-container">
+                <div id="detalle-sitio-back-btn">
+                    <a class="float-back-btn" onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </a>
+                </div>
+                <div id="slider-sitio"></div>
+                <div id="contenido-sitio">
+                    <table>
+                        <tr>
+                            <td><img src="assets/icono-titulo.png" class="icono-titulo"></td>
+                            <td>
+                                <div class="contenido-header-table">
+                                    <h2 id="nombre-sitio">Nombre del sitio</h2>
+                                    <p id="direccion-sitio">Dirección del sitio</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 50%;"><h3 id="nombre-autor">Autor</h3></td>
+                            <td style="width: 50%; text-align: right;"><a id="btn-semblanza-autor" onclick="window.fn.goAutor()">Ver semblanza</a></td>
+                        </tr>
+                    </table>
+                    <div id="html-content-sitio"></div>
+                    <div id="sitio-deja-huella">
+                        <div class="btn-footer-nav" onclick="window.fn.load('deja-huella.html')">Deja huella</div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.getElementById('detalle-sitio').onInit = function () {
+                    this.onShow = function () {
+                    }
                 }
             </script>
         </ons-page>
@@ -214,7 +284,15 @@
             </ons-toolbar>
             <div id="resultado-busqueda-container">
                 <h1 id="resultado-busqueda-title">Resultado de búsqueda</h1>
-                <p>No hay sitios disponibles</p>
+                <div class="no-sitios-found">
+                    <div class="sad-face">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="5em" viewBox="0 0 496 512">
+                            <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200zm-80-216c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32zm160-64c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm-80 128c-40.2 0-78 17.7-103.8 48.6-8.5 10.2-7.1 25.3 3.1 33.8 10.2 8.4 25.3 7.1 33.8-3.1 16.6-19.9 41-31.4 66.9-31.4s50.3 11.4 66.9 31.4c8.1 9.7 23.1 11.9 33.8 3.1 10.2-8.5 11.5-23.6 3.1-33.8C326 321.7 288.2 304 248 304z"/>
+                        </svg>
+                    </div>
+                    <p>No hemos encontrado sitios.<br/>Espera nuevos sitios próximamente.</p>
+                </div>
             </div>
             <script>
                 document.getElementById('resultado-busqueda').onInit = function () {
@@ -268,6 +346,7 @@
             </ons-toolbar>
             <div id="conocenos-container">
                 <img src="assets/about-logo.png">
+                <p id="conocenos-subtitulo">Donde el ingenio científico se vuelva identidad</p>
                 <div class="conocenos-buttons">
                     <button class="conoce-btn equipo" onclick="window.fn.goEquipo()">Conoce el equipo</button>
                     <button class="conoce-btn leer" onclick="window.fn.goLeerMas()">Leer +</button>
@@ -340,16 +419,12 @@
                     <li>Secretaría de Desarrollo Institucional</li>
                     <li>Instituto de Biología</li>
                     <li>Comité de Análisis para las Intervenciones Urbanas, Arquitectónicas y de las Ingenierías en el Campus Ciudad Universitaria</li>
-                </ul>
-                <br/><br/>
-                <h4>UNESCO</h4>
-                <ul>
-                    <li>Agencia Española de Cooperación internacional para el desarrollo</li>
+                    <li>UNESCO</li>
+                    <li>Agencia Española de Cooperación Internacional para el Desarrollo</li>
                     <li>Secretaría de Relaciones Exteriores</li>
                     <li>Instituto Nacional de Antropología e Historia</li>
                     <li>Instituto Nacional de Bellas Artes y Literatura</li>
                     <li>Mexican Cultural Centre</li>
-                    <li>Lamán Carranza Ramírez</li>
                     <li>Abel Zuñiga</li>
                 </ul>
             </div>
@@ -451,11 +526,38 @@
     </template>
 
 
+    <template id="autor.html">
+        <ons-page id="autor">
+            <ons-toolbar modifier="transparent cover-content">
+                <div class="left">
+                    <ons-toolbar-button onclick="window.fn.popBtn()">
+                        <ons-icon icon="arrow-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="autor-container">
+                <div class="equipo-item">
+                    <div class="foto-autor" id="foto-perfil-autor"></div>
+                    <h1 id="detalle-nombre-autor">Nombre</h1>
+                    <p id="email-autor">contacto@test.com</p>
+                    <p id="semblanza-autor">Semblanza</p>
+                </div>
+            </div>
+            <script>
+                document.getElementById('autor').onInit = function () {
+                    this.onShow = function () {}
+                }
+            </script>
+        </ons-page>
+    </template>
+
+
         <script src="js/onsenui.min.js"></script>
         <script src="js/jquery-3.6.0.min.js"></script>
         <script src="libraries/jqvmap/jquery.vmap.min.js"></script>
         <script src="js/jqvmap-mexico.js"></script>
         <script src="cordova.js"></script>
+        <script src="js/helpers/sitiosHelper.js"></script>
         <script src="js/events.js"></script>
         <script src="js/index.js"></script>
     </body>
