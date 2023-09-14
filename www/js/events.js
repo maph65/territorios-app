@@ -71,6 +71,35 @@ document.addEventListener("init", function (event) {
             }
             break;
 
+        case 'resultado-busqueda':
+            searchterm = page.data.searchterm;
+            console.log(searchterm);
+            $.post({
+                url: window.baseUrlApi + 'api/v1/search/locaciones',
+                data: {query: page.data.searchterm},
+                success:function(result){
+                    console.log(result);
+                    window.locacionesInfo = [];
+                    if(result.data.length > 0){
+                        let htmlSitios = '';
+                        for(let i = 0; i < result.data.length; i++){
+                            window.locacionesInfo[i] = result.data[i];
+                            let sitio = new sitiosHelper(result.data[i]);
+                            htmlSitios += sitio.getCardHtml();
+                            $('#resultado-busqueda-list').html(htmlSitios);
+                        }
+                    }else{
+
+                    }
+                }
+            }).fail(function(){
+                $('#resultado-busqueda-list').html('<p>Ocurrió un error al cargar la información. Intente de nuevo más tarde.</p>');
+            }).always(function(){
+                $('#resultado-busqueda-container').css('display','block');
+                $('#resultado-busqueda-loader').css('display','none');
+            });
+            break;
+
         default:
             console.log('No data available for '+page.id);
             break;

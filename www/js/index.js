@@ -76,7 +76,7 @@ window.fn.goConcenos = function(){
 
 window.fn.goSearchResults = function(){
     document.querySelector('#territoriosNavigator')
-        .pushPage('resultado-busqueda.html',{  });
+        .pushPage('resultado-busqueda.html',{ data: {searchterm: $('#buscador').val() } });
 }
 
 window.fn.goAgradecimientos = function(){
