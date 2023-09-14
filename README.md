@@ -14,6 +14,20 @@ en el equipo, tal como se describe en el siguiente link:
 
 https://cordova.apache.org/#getstarted
 
+Para la instalación de Apache Cordova deberá tener instalado Node.JS
+en su versión 18.13.0 o superior y NPM  en su versión 6.14.17 o superior.
+
+Es necesario ejecutar el comando:
+
+```
+npm install
+```
+
+Este se debe ejecutar en la raíz del proyecto para que se descarguen
+los paquetes y librerías necesarias para la ejecución y compilación 
+de la aplicación.
+
+
 Así mismo deberá tener instalado Android Studio junto con su SDK
 con la API de Android 8.0 Oreo o superior.
 
